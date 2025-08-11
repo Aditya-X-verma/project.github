@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding:0;
+            margin:0;
+            background:url("image/moon.png");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            background-size: cover;
+        }
+        #mydiv{
+            height:100px;
+            width: 100px;
+            position: absolute;
+            transition: 0.2s ease-out;
+        }
+        #mydiv img{
+            width:100px
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div id="mydiv">
+        <img src="image/rocket.png" height="100px" width="100px">
+    </div>
+
+    <script>
+        myDiv=document.getElementById("mydiv");
+        document.addEventListener("mousemove",(e)=>{
+            move(e);
+        //(e) => { move(e); }: This is an arrow function that runs every time the mousemove event occurs. It calls another function named move and passes the event object e to it. The event object e contains information about the event, including the mouse cursor's coordinates.
+        })
+        const move=(e)=>{
+            //This line defines the move function, which is responsible for repositioning the div. It accepts the event object e as a parameter.
+            var x=e.pageX;
+            //var x = e.pageX;: This gets the horizontal coordinate (X-axis) of the mouse pointer from the event object e and stores it in a variable named x. pageX gives the coordinate relative to the top-left corner of the entire webpage.
+            var y=e.pageY;
+
+            myDiv.style.left=x +"px";
+            //myDiv.style.left = x + "px";: This line updates the CSS of the myDiv element. It sets the left property to the value of the x variable, with "px" added at the end to make it a valid CSS unit (e.g., "450px"). This moves the div horizontally to match the mouse's position.
+            myDiv.style.top=y +"px";
+        }
+    </script>
+</body>
+</html>
