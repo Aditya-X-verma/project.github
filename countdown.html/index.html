@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: azure;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height:100vh;
+            margin:0;
+        }
+        .countdown-container{
+            text-align: center;
+        }
+        .countdown-timer{
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: rgb(70, 65, 65);
+        }
+        .countdown-label{
+            font-size: 20px;
+            color:rgb(70, 65, 65);
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <div class="countdown-timer" id="countdown"></div>
+        <div class="countdown-label">until 2026</div>
+    </div>
+    <script>
+        const targetDate=new Date('2026-01-01T00:00:00');
+
+        function updatecountdown(){
+            const currentDate=new Date(); //This line creates a new JavaScript Date object that holds the exact date and time at the moment the code is executed.
+
+            const timeDifference=targetDate-currentDate;//. The result, timeDifference, is the total number of milliseconds remaining until the target date.
+            //math.floor-Rounds the result down to the nearest whole number (e.g., 155) to get only the full days.
+            const days=Math.floor(timeDifference / (1000*60*60*24));//timeDifference / ...: Divides the total milliseconds remaining by the number of milliseconds in a day to get the total number of days
+            
+            const hours=Math.floor((timeDifference % (1000*60*60*24))/(1000*60*60));
+            //The modulo operator (%) gives the remainder of milliseconds left over after accounting for the full days.
+            ///(1000*60*60): Divides that remainder by the number of milliseconds in an hour.
+            
+            const min=Math.floor((timeDifference % (1000*60*60)) / (1000*60));
+
+            const sec=Math.floor((timeDifference % (1000*60)) / 1000);
+        
+            document.getElementById("countdown").innerText=`
+            ${days}d ${hours}h ${min}m ${sec}s`;
+
+            setTimeout(updatecountdown,1000);
+            //This is what makes the countdown "live". setTimeout is a command that tells the browser to execute a function after a specified delay. Here, it schedules the updatecountdown function to run again after 1000 milliseconds (which is 1 second). This creates a recursive loop that updates the timer every second.
+        }
+        updatecountdown();
+    </script>
+</body>
+</html>

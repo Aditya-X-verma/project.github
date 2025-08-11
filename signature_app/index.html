@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quick_sign</title>
+    <link rel="icon" href="favicon.png">
+    <style>
+        .main{  /*this is a centering technique*/
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);/* The result is that the element is perfectly centered on the page.  This is a classic centering trick. After the element's top-left corner is moved to the center of the page, this rule shifts the element back up by 50% of its own height and back to the left by 50% of its own width. The result is that the element is perfectly centered on the page.*/
+        }
+        .canvas{
+            border: 2px solid black;
+        }
+        .top, .bottom{
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin:20px 0 20px 0;    /*margin from top and bottom*/
+        }
+        .block ,input,select,button{
+            width:80%;
+        }
+        .top>block{/*its refer to children of top*/
+            margin:10px;  
+        }
+        .bottom>button{
+            margin:10px;
+        }
+        .block>p{/*text come in center*/
+            margin:10px auto;   
+            width:50%;
+        }
+
+        .btn-btn-danger{
+            background-color: rgb(19, 147, 104);
+        }
+        .btn-btn-success{
+            background-color: rgb(191, 212, 5);
+        }
+        .btn-btn-warning{
+            background-color: rgb(224, 7, 7);
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+
+        <div class="top">
+
+            <div class="block">
+                <p>Text color picker</p>
+                <input class="form-control" id="colorpicker" type="color">
+            </div>
+            <div class="block">
+                <p>background</p>
+                <input class="form-control" id="canvascolor" type="color">
+            </div>
+            <div class="block">
+                <p>Font size</p>
+                <select id="fontpicker">
+                    <option value="10">10px</option>
+                    <option value="20">20px</option>
+                    <option value="30">30px</option>
+                    <option value="40">40px</option>
+                    <option value="50">50px</option>
+                </select>
+            </div>
+        </div>
+
+        <canvas class="canvas" id="mycanvas" width="800" height="500"></canvas>
+        
+        <div class="bottom">
+            <button type="button" class="btn-btn-danger" id="clearbtn">clear</button>
+            <button type="button" class="btn-btn-success" id="savebtn">save and download</button>
+            <button type="button" class="btn-btn-warning" id="retrievebtn">retrieve saved signature</button>
+        </div>
+
+    </div>
+
+    <script>
+        const colorPicker=document.getElementById("colorpicker")
+        const canvasColor=document.getElementById("canvascolor")
+        const canVas=document.getElementById("mycanvas")
+        const clearBtn=document.getElementById("clearbtn")
+        const saveBtn=document.getElementById("savebtn")
+        const retBtn=document.getElementById("retrievebtn")
+        const fontPicker=document.getElementById("fontpicker")
+        
+        const ctx=canVas.getContext('2d')
+        //This line gets the 2D rendering context for the canvas element. The ctx object contains all the methods and properties needed to draw shapes, text, and images onto the canvas
+        //ctx is an object because the getContext('2d') method is specifically designed to return an object. This object acts as a toolbox, bundling together all the necessary properties and methods needed to draw on the canvas
+        colorPicker.addEventListener("change",(e)=>{// put a function on colorpicker and it will runs when "change" event happens
+            ctx.strokeStyle=e.target.value;  //e.target is a reference to the actual element that triggered the event.  It’s especially helpful when you have one event listener for many elements — you can figure out which element was clicked without attaching separate listeners
+           //ctx.strokestyle Sets the color used for drawing lines (strokeStyle) to the new color selected in the picker. e.target.value holds the hex code of the chosen color.
+           //ctx.strokeStyle is a property of the 2D canvas rendering context (ctx) object. It determines the color, gradient, or pattern to use for the strokes (outlines) of shapes you draw on the canvas. 
+           ctx.fillStyle=e.target.value;
+            //ctx.fillStyle = e.target.value;: Also sets the color used for filling shapes. This isn't strictly necessary for drawing lines but doesn't cause harm.
+        })
+
+        canVas.addEventListener("mousedown",(e)=>{
+            isDrawing=true;
+            lastX=e.offsetX;  //Records the mouse's horizontal position relative to the canvas
+            lastY=e.offSetY;  //Records the mouse's vertical position relative to the canvas
+        //offsetX is a property of a mouse event object that tells you the horizontal (X) coordinate of the mouse pointer relative to the target element. 
+        //lastX is a variable the script uses to remember the last known horizontal position of the mouse on the canvas.
+        //To draw a line, you need two points: a start and an end. In this script:
+        //lastX stores the start point of a tiny line segment.
+        //The current mouse position, e.offsetX, is the end point.
+        //After drawing the segment from lastX to e.offsetX, the script immediately updates lastX to the current position. This way, the end of one segment becomes the start of the next, allowing you to draw a smooth, continuous line.
+        })
+
+         canVas.addEventListener("mousemove",(e)=>{
+            if(isDrawing){
+                ctx.beginPath();
+                //ctx.beginPath();: Starts a new drawing path.
+                ctx.moveTo(lastX,lastY);
+                //ctx.moveTo(lastX, lastY);: Moves the "pen" to the last recorded position without drawing.
+                ctx.lineTo(e.offsetX,e.offsetY);
+                //ctx.lineTo(event.offsetX, event.offsetY);: Adds a straight line from the last position to the current mouse position.
+                ctx.stroke();
+                //Renders the line on the canvas.
+                lastX=e.offsetX;
+                lastY=e.offsetY;
+                //lastX = e.offsetX; lastY = e.offsetY;: Updates the last known position to the current one.
+            }
+        })
+
+        canVas.addEventListener('mouseup',()=>{
+            isDrawing=false;
+        })
+
+        canvasColor.addEventListener("change",(e)=>{
+            ctx.fillStyle=e.target.value;
+            //Sets the color for filling shapes to the newly selected background color.
+            ctx.fillRect(0,0,800,500);
+            //Draws a filled rectangle that covers the entire canvas (from coordinate 0,0 to 800,500), effectively changing the background color
+        })
+
+        fontPicker.addEventListener("change",(e)=>{
+            ctx.lineWidth=e.target.value
+            //Sets the thickness of the lines to be drawn to the value of the selected option 
+        })
+
+        clearBtn.addEventListener("click",()=>{
+            ctx.clearRect(0,0,canVas.width,canVas.height)
+            //ctx.clearRect(...): Erases a rectangular area, in this case, the entire canvas, making it blank.
+        })
+
+        saveBtn.addEventListener("click",()=>{
+            localStorage.setItem("canvasContent",canVas.toDataURL());
+            //localStorage.setItem(...): Converts the canvas content to a Base64 encoded PNG image string (canVas.toDataURL()) and saves it in the browser's local storage under the key "canvasContent".
+            let link=document.createElement("a");
+            //Creates a new, invisible hyperlink (<a>) element.
+            link.download="my-canVas.png";
+            //link.download = "my-canVas.png";: Sets the download attribute, which tells the browser to download the linked file with this filename.
+            link.href=canVas.toDataURL();
+            //link.href = canVas.toDataURL();: Sets the hyperlink's destination to the canvas image data.
+            link.click();
+        })
+
+        retBtn.addEventListener("click",()=>{
+            let savedcanvas=localStorage.getItem("canvasContent");
+            //let savedcanvas = localStorage.getItem("canvasContent");: Retrieves the saved image data string from local storage.
+            if(savedcanvas){
+                let img=new Image();
+                //let img = new Image();: Creates a new HTML Image object
+                img.src=savedcanvas;
+                //img.src = savedcanvas;: Sets the source of the image to the retrieved Base64 data string. The browser will decode this and load it as an image.
+                ctx.drawImage(img,0,0);
+                //ctx.drawImage(img, 0, 0);: Draws the loaded image onto the canvas, starting at the top-left corner (0,0).
+            }
+        })
+ 
+    </script>
+</body>
+</html>
