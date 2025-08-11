@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" 
+    rel="stylesheet">
+    <style>
+        *{
+            margin:0px;
+            padding:0px;
+            box-sizing: border-box;
+            color:white
+        }
+        .black-document{
+            height:100vh;  /*"Viewport Height" 1vh is equal to 1% of the viewport's height. 100vh therefore means 100% of the viewport's height.*/
+            width:100vw;
+            background-color:rgb(17, 13, 32);
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            position:relative;
+        }
+        .dots{
+            font-size:40px;
+            position:absolute;
+            top:4%;
+            left:40%;
+            cursor:pointer;
+        }
+        .container{
+            height:100vh;
+            width:0vw;/*Viewport Width  1vw = 1% of the viewport's width*/
+            position:fixed;
+            top:1%;
+            left:1%;
+            z-index:1;/*Higher z-index value → Element appears on top
+                      Lower z-index value → Element appears behind
+                      here this has the max z index to it appers on front*/
+            background-color: springgreen;
+            overflow-x: hidden;
+        }
+        .cut{
+            position:absolute;
+            font-size: 30px;
+            top:2%;
+            right:5%;
+            cursor:pointer;
+        }
+        .nav ul{
+            text-align: center;
+            display:flex;
+            flex-direction: column;
+            height: 100vh;
+            justify-content: center;
+            gap:5px;
+        }
+        .nav ul li a{
+            text-decoration: none;
+            font-size:40px;
+            color:beige
+        }
+    </style>
+</head>
+<body>
+    <div class="black-document">
+        <div class="dots">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+        <div class="container">
+            <div class="cut">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        
+        <div class="nav">
+            <ul>
+                <li> <a href="#">Home</a> </li>
+                <li> <a href="#">Contact</a> </li>
+                <li> <a href="#">services</a> </li>
+                <li> <a href="#">Career</a> </li>
+                <li> <a href="#">About</a> </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        const Dots=document.querySelector(".dots");
+        const Container=document.querySelector(".container");
+        const Cut=document.querySelector(".cut");
+
+        Dots.addEventListener("click",()=>{
+            Container.style.width="55vw";
+        })
+        Cut.addEventListener("click",()=>{
+            Container.style.width="0";
+        })
+    </script>
+</body>
+</html>

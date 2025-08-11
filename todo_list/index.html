@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul li{
+            list-style-type:circle;
+
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>To-DO List</h1>
+        <input id="taskinput" type="text" placeholder="add text here">
+        <button onclick="addtask()">Add Task</button>
+        <ul id="tasklist"></ul>
+    </div>
+
+
+
+
+    <script>
+        let task=[]
+        
+        function addtask(){
+            let taskInput=document.getElementById("taskinput")
+            const taketask=taskInput.value.trim()  //trim()--remove the blank space 
+            if(taketask != " "){
+                task.push(taketask)
+                displaytask();
+                taskInput.value=" ";
+            }
+        }
+
+        function displaytask(){
+            const taskList=document.getElementById("tasklist")
+            taskList.innerHTML=" ";
+            task.forEach((tasks,index)=>{
+                const li=document.createElement("li")
+                li.textContent=tasks;
+
+                const deletebutton=document.createElement("button")
+                deletebutton.textContent="delete"
+                deletebutton.onclick=function(){  //When the user clicks this button, the function inside is executed
+                    task.splice(index,1)
+                    displaytask()
+                }
+
+                const updatebutton=document.createElement("button")
+                updatebutton.textContent="update"
+                updatebutton.onclick=function(){
+                    //prompt(message, defaultText)
+                    // defaulttext->Pre-filled value in the input field that we want to update
+                    const updatetask=prompt("add the updated text",tasks)
+                    if (updatetask != null){
+                        task[index]=updatetask
+                        displaytask()
+                        //If the user did not press "Cancel" (i.e., updatetask !== null):
+                        //The task array is updated: task[index] = updatetask
+                    }
+                }
+
+                li.appendChild(updatebutton)
+                li.appendChild(deletebutton)
+                taskList.appendChild(li)
+
+            })
+        }
+
+    </script>
+</body>
+</html>
