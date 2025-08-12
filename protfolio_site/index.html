@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Matangi:wght@300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" 
+    rel="stylesheet">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+            font-family:"Poppins", sans-serif;
+        }
+        .banner{
+            position:relative;
+            display:flex;
+            justify-content:space-between;
+            align-items: center;
+            padding:100px;
+            height:100vh;
+            background-color: #ffffffb9;
+            transition:0.5s;
+        }
+        header{
+            position: absolute;
+            top:0;
+            left:0;
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            padding:20px 100px;
+            align-items: center;
+        }
+        header .logo{
+            color:#332;
+            text-decoration: none;
+            font-size: 2em;
+            font-weight: 600;
+            transition:0.5s;
+        }
+        header .logo span{
+            color:orange;
+            font-size: 2em;
+        }
+        header ul{
+            display:flex;
+            gap:40px;
+        }
+        header ul li{
+            list-style: none;
+        }
+        header ul li a{
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.2em;
+            color:#342;
+            transition:0.5s;
+        }
+        .content{
+            position:relative;
+            max-width: 700px;
+        }
+        .content h2{
+            font-size: 5.5em;
+            color:#331;
+            transition:0.5s;
+
+        }
+        .content h2 span{
+            color:orange;
+        }
+        .content p{
+            font-size:1.2em;
+            color:rgb(57, 64, 42);
+            margin:10px 0;
+            transition:0.5s
+        }
+        .content button{
+            position:relative;
+            background:orange;
+            color:#fff;
+            border:none;
+            outline:none;
+            padding: 15px 35px;
+            font-size:1.24em;
+            letter-spacing: 0.05em;
+            margin-right: 20px;/*spacing b/w buttons*/
+            border-radius: 10px;
+            transition:0.5s;
+            cursor:pointer;
+            font-weight:600;
+
+        }
+        .content button.chat{
+            background: transparent;
+            color:#332;
+        }
+        .daynight{
+            position:absolute;
+            bottom:25px;
+            left:50%;
+            width:60px;
+            height:60px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            font-size:2em;
+            transition:0.5s;
+            cursor:pointer;
+        }
+        .daynight i:nth-child(2),/*This part of the selector targets the second <i> element that is a child of the element with the class daynight*/
+        .banner.night .daynight i:nth-child(1){/*This selector is more specific. It targets the first <i> element inside .daynight, but only when its ancestor element .banner also has the class night*/
+            display:none;/*Combined Effect: When the page loads, the sun icon is hidden. When you click the button and the .night class is added, the moon icon becomes hidden.*/
+        }
+        .banner.night .daynight i:nth-child(2){/*This targets the second <i> element (the sun icon) inside .daynight, but only when the page is in night mode (when .banner has the class .night).*/
+            display:block;/*it makes its visible as block level element*/
+        }/*Combined Effect: When you click the button and the .night class is added, the sun icon becomes visible, overriding the initial display: none; rule.*/
+        .banner.night{
+            background-color: #333;
+        }
+        .banner.night .daynight{
+            color:#fff;
+            background-color:#444;/*the color will only apply when banner has night class added with it*/
+        }
+        .banner.night header .logo,
+        .banner.night .content h2,
+        .banner.night .content p,
+        .banner.night .content button.chat,
+        .banner.night header ul li a{
+            color:#fff;
+        }
+
+    </style>
+</head>
+<body>
+    <section class="banner">
+        <header>
+            <a herf="#" class="logo">Find<span> X </span>out</a>
+            <ul>
+                <li><a href="#">Work</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </header>
+        <div class="content">
+            <h2>I am  <span id="text"> FindXOut </span></h2>
+            <p>let's break the Matrix</p>
+            <button>Join us</button>
+            <button class="chat">let's chat</button>
+        </div>
+        <div class="daynight">
+            <i class="fa-solid fa-moon"></i>
+            <i class="fa-solid fa-cloud-sun"></i>
+        </div>
+
+    </section>
+    
+    <script>
+        const daynight=document.querySelector(".daynight");
+        const banner=document.querySelector(".banner");
+
+        daynight.addEventListener("click",()=>{
+            banner.classList.toggle("night")
+        })/*To toggle means to switch back and forth between two opposite states with a single action.
+          Think of it like a standard light switch:
+          You press it once, the light turns on.
+          You press it again, the light turns off.*/
+
+        let typingeffect=new Typed("#text",{
+            strings:["FindXOut","Youtube","Coder"],
+            loop:true,
+            typeSpeed:100,
+            backSpeed:50,
+            backDelay:1000
+        });
+    </script>
+</body>
+</html>
